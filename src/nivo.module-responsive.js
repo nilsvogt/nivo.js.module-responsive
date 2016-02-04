@@ -27,29 +27,42 @@
 ;(function(){ "use strict";
 
 	// constants
-	var ARRAY_KEY_SIZE_MIN = 0,
-	ARRAY_KEY_SIZE_MAX = 1;
+	var
+		ARRAY_KEY_SIZE_MIN = 0,
+		ARRAY_KEY_SIZE_MAX = 1;
 
 	var ResponsiveModule = (function(){
 		return {
-			addBreakpoint: function(el, options /* [, options_breakpoint2 [, ...]] */){
-				var breakpoints = Array.prototype.splice.call(arguments, 1);
-				for (var i = 0; i < breakpoints.length; i++) {
-					new ResponsiveView(el, breakpoints[i]);
+			/**
+			 * Add A Breakpoint For A View
+			 * @param DomNode view  The view that will be updated
+			 * @param object scaleDefinition
+			 * @return void
+			 */
+			addBreakpoint: function(view, scaleDefinition /* [, scaleDefinition [, ...]] */){
+				var scaleDefinitions = Array.prototype.splice.call(arguments, 1);
+				for (var i = 0; i < scaleDefinitions.length; i++) {
+					new ResponsiveView(view, scaleDefinitions[i]);
 				}
 			}
 		};
 	}());
 
-	var ResponsiveView = function( view, options ){
+	/**
+	 * ResponsiveView
+	 * @param DomNode view  The view that will be updated
+	 * @param object scaleDefinition
+	 * @return void
+	 */
+	var ResponsiveView = function( view, scaleDefinition ){
 		this.widget_width = null;
 		this.fontsize = 0;
+		this.baseFontsize = parseInt( getComputedStyle(view)['font-size'] , 10);
 		this.settings = {
-			fontsizeRange: options.fontsizeRange || [0, Infinity],    // min- and maxsize for the calculated base-fontsize
-			scaleRange: options.scaleRange || [0, Infinity],    // range of **view-width** we update the fontsize for
-			viewWidthOrig: options.viewWidthOrig || 810,              // basewidth all your sizes are depending on
-			base_fontsize: options.base_fontsize || 10,
-			onChangeValue: options.onChangeValue || function(){}
+			fontsizeRange: scaleDefinition.fontsizeRange || [0, Infinity],    // min- and maxsize for the calculated base-fontsize
+			scaleRange: scaleDefinition.scaleRange || [0, Infinity],    // range of **view-width** we update the fontsize for
+			viewWidthOrig: scaleDefinition.viewWidthOrig || 810,              // basewidth all your sizes are depending on
+			onChangeValue: scaleDefinition.onChangeValue || function(){}
 		};
 
 		var self = this;
@@ -59,18 +72,23 @@
 		self.updateBaseFontsize(view);
 	};
 
+	/**
+	 * Calculate The New Basefontsize For The Current Width Of View
+	 * @param  DomNode view  The view that will be updated
+	 * @return void
+	 */
 	ResponsiveView.prototype.updateBaseFontsize = function(view){
 
 		var settings = this.settings;
 		var fontsize = this.fontsize;
 
-		// limit range
+		// limit the range
 		if(window.innerWidth < settings.scaleRange[ARRAY_KEY_SIZE_MIN] || window.innerWidth > settings.scaleRange[ARRAY_KEY_SIZE_MAX]){
 			return;
 		}
 
 		// calculate new 'base-fontsize'
-		fontsize = ( view.offsetWidth / (settings.viewWidthOrig/settings.base_fontsize) );
+		fontsize = ( view.offsetWidth / (settings.viewWidthOrig/this.baseFontsize) );
 
 		// check boundaries
 		fontsize = Math.max( settings.fontsizeRange[ARRAY_KEY_SIZE_MIN], fontsize );

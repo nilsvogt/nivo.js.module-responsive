@@ -9,7 +9,7 @@
 		#page { width: 90rem; outline: 1px solid #000; margin: 0 auto; }
 
 		@media( max-width: 767px ){
-			#page { width: 76rem; outline: 1px solid #000; margin: 0 auto; }
+			#page { width: 60rem; outline: 1px solid #000; margin: 0 auto; }
 			h1 { font-size: 3rem; color: green; }
 		}
 	</style>
@@ -25,31 +25,27 @@
 
 	<script type="text/javascript" src="../src/nivo.module-responsive.js"></script>
 	<script type="text/javascript">
-			function init(){
-				var
-					view = document.querySelector('html'),
-					basefontsize = parseInt( getComputedStyle(view)['font-size'] , 10);
+		function init(){
+			var view = document.querySelector('html');
 
-				// ResponsiveModule
-				nivo.ResponsiveModule.addBreakpoint( view, {
-					base_fontsize: basefontsize,
-					viewWidthOrig: 1024,
-					fontsizeRange: [0, Infinity],
-					scaleRange: [768, Infinity],
-					onChangeValue: function( value ){
-						// fontsize = value;
-					}
-				}, {
-					base_fontsize: basefontsize,
-					viewWidthOrig: 767,
-					fontsizeRange: [0, Infinity],
-					scaleRange: [0, 767],
-					onChangeValue: function( value ){
-						// fontsize = value;
-					}
-				});
-			}
+			// ResponsiveModule
+			nivo.ResponsiveModule.addBreakpoint( view, {
+				viewWidthOrig: 1024,
+				fontsizeRange: [0, Infinity],
+				scaleRange: [768, Infinity],
+				onChangeValue: function( value ){
+					// fontsize = value;
+				}
+			}, {
+				viewWidthOrig: 767,
+				fontsizeRange: [0, Infinity],
+				scaleRange: [0, 767],
+				onChangeValue: function( value ){
+					// fontsize = value;
+				}
+			});
+		}
 
-			init();
+		init();
 	</script>
 </body>
