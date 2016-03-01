@@ -8,9 +8,9 @@ ResponsiveModule provides a single method to initialize the automated update of 
 
 In order to configure the way views get resized by their fontsize you can adjust a few details:
 
-{int} viewWidthOrig  The actual width of the view when ResponsiveModule was not in use
-{array} scaleRange  The range in which the resizement should be applied [(int)min, (int)max]
-{array} fontsizeRange  The range in which the fontsize will be applied within the given scaleRange [(float)min, (float)max]
+{int} viewWidthOrig  The actual width of the view when ResponsiveModule was not in use  
+{array} scaleRange  The range in which the resizement should be applied [(int)min, (int)max]  
+{array} fontsizeRange  The range in which the fontsize will be applied within the given scaleRange [(float)min, (float)max]  
 {callable} onChangeValue  The callback that will be called everytime the fontsize was adjusted
 
 ```
